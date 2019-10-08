@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Employee Management System</title>
+</head>
+<body>
+
+<div class="jumbotron " style="margin-bottom:0">
+    <h1 class="text-center">EMPLOYEE MANAGEMENT SYSTEM</h1>
+    <div class="float-right" sec:authorize="isAuthenticated()">Welcome ! <span sec:authentication="name"></span></div>
+</div>
+
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <button class="btn btn-dark"><a class="nav-link" href="/emp">Employee</a></button>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-dark active"><a class="nav-link" href="/project">Projects</a></button>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-dark"><a class="nav-link" href="/task">Tasks</a></button>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-dark"><a class="nav-link" href="/operation">Operation</a></button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div th:unless="${error==null}">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Status code</td>
+            <td>Error</td>
+        </tr>
+        </thead>
+
+        <tr>
+            <td><span th:text="${error.statusCode}"></span></td>
+            <td><span th:text="${error.body}"></span></td>
+        </tr>
+    </table>
+</div>
+
+<div class="container" th:if="${error==null}">
+
+    <br>
+    <br>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each = "project: ${projects}">
+            <td><span th:text="${project.pid}"></span></td>
+            <td><span th:text="${project.name}"></span></td>
+            <td><button class="btn btn-warning"><a href="/">View</a></button></span></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+</div>
+
+
+
+</body>
+
+</html>

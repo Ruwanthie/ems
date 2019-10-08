@@ -8,6 +8,7 @@ security:
     resource:
       token-info-uri: http://localhost:8282/oauth/check_token
 server:
+  port: 8082
   servlet:
     session:
       cookie:

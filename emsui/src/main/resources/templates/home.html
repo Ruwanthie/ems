@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org" lang="en" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="https://www.thymeleaf.org" lang="en" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Employee Management System</title>
     <meta charset="utf-8">
@@ -14,7 +15,7 @@
 
 <div class="jumbotron text-center" style="margin-bottom:0">
     <h1>EMPLOYEE MANAGEMENT SYSTEM</h1>
-
+    <div class="float-right" sec:authorize="isAuthenticated()">Welcome ! <span sec:authentication="name"></span></div>
 </div>
 
 
@@ -22,16 +23,16 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <button class="btn btn-dark active"><a class="nav-link" href="/">Home</a></button>
+                <button class="btn btn-dark"><a class="nav-link" href="/emp">Employee</a></button>
             </li>
             <li class="nav-item">
-                <button class="btn btn-dark"><a class="nav-link" href="/add">Add Student</a></button>
+                <button class="btn btn-dark"><a class="nav-link" href="/project">Projects</a></button>
             </li>
             <li class="nav-item">
-                <button class="btn btn-dark"><a class="nav-link" href="/find">Find Student</a></button>
+                <button class="btn btn-dark"><a class="nav-link" href="/task">Tasks</a></button>
             </li>
             <li class="nav-item">
-                <button class="btn btn-dark"><a class="nav-link" href="/info">Student Information</a></button>
+                <button class="btn btn-dark"><a class="nav-link" href="/operation">Operation</a></button>
             </li>
         </ul>
     </div>
@@ -41,4 +42,5 @@
 
 
 </body>
+
 </html>
