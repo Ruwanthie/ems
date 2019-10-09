@@ -1,31 +1,51 @@
 package com.dasuni.rentcloud.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer tid;
-    private String task_desc;
+    private Integer id;
 
-    public Integer getTid() {
-        return tid;
+    private String name;
+
+    private String Description;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setTid(Integer tid) {
-        this.tid = tid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getTask_desc() {
-        return task_desc;
+    public String getName() {
+        return name;
     }
 
-    public void setTask_desc(String task_desc) {
-        this.task_desc = task_desc;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", Description='" + Description + '\'' +
+                '}';
     }
 }

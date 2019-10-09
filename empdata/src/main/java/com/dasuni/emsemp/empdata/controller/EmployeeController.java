@@ -1,14 +1,15 @@
 package com.dasuni.emsemp.empdata.controller;
 
 import com.dasuni.emsemp.empdata.service.EmployeeServiceImpl;
+import com.dasuni.rentcloud.model.AssignTask;
 import com.dasuni.rentcloud.model.Employee;
-import com.dasuni.rentcloud.model.Telephone;
+import com.dasuni.rentcloud.model.Project;
+import com.dasuni.rentcloud.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/ems")
@@ -16,50 +17,39 @@ public class EmployeeController {
     @Autowired
     EmployeeServiceImpl employeeService;
 
-    //To save the records to db - POST METHOD
-    @RequestMapping(value = "/employee", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ROLE_admin')")
-    public Employee saveEmployee(@RequestBody Employee employee){
+    @RequestMapping(value = "/employees")
+    @PreAuthorize("hasAuthority('read_profile')")
+    public List<Employee> getEmployees(){
+        return employeeService.getEmployees();
+    }
 
-        for (Telephone tel: employee.getTelephoneList()) {
-            tel.setEmployee(employee);
-        }
+    @RequestMapping(value = "/employees",method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_manager')")
+    public Employee save(@RequestBody Employee employee){
         return employeeService.save(employee);
     }
 
-    //To update the records to db - PUT METHOD
-    @RequestMapping(value = "/employee/{id}", method = RequestMethod.PUT)
-    @PreAuthorize("hasRole('ROLE_admin')")
-    public Employee update(@RequestBody Employee newEmployee, @PathVariable Integer id) {
-
-        return employeeService.findById(id)
-                .map(Employee -> {
-                    Employee.setName(newEmployee.getName());
-                    Employee.setAddress(newEmployee.getAddress());
-                    Employee.setTelephoneList(newEmployee.getTelephoneList());
-                    for (Telephone tel: newEmployee.getTelephoneList()) {
-                        tel.setEmployee(newEmployee);
-                    }
-                    return employeeService.save(Employee);
-                })
-                .orElseGet(() -> {
-                    newEmployee.setEmpid(id);
-                    return employeeService.save(newEmployee);
-                });
+    @RequestMapping(value = "/employees/{id}",method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('read_profile')")
+    public Employee getEmployee(@PathVariable Integer id){
+        return employeeService.getEmployee(id);
     }
 
-    //to fetch the all records - GET METHOD using jpa repository
-    @RequestMapping(value = "/employee", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_operator')")
-    public List<Employee> fetchAll(Optional<Integer> id){
-        return employeeService.findAll();
+    @RequestMapping(value = "/employees/{id}/projects",method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('read_profile')")
+    public List<Project> getProjectIds(@PathVariable Integer id){
+        return employeeService.getProjects(id);
     }
 
-    //to fetch a particular record by id - GET METHOD using jpa repository
-    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ROLE_admin') or hasRole('ROLE_operator')")
-    public Optional<Employee> fetchAll(@PathVariable Integer id){
-        return employeeService.findById(id);
+    @RequestMapping(value = "/employees/{eid}/projects/{pid}/tasks",method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('read_profile')")
+    public List<Task> getProjectIds(@PathVariable Integer eid, @PathVariable Integer pid){
+        return employeeService.getTasks(pid);
     }
 
+    @RequestMapping(value = "/assign",method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_manager')")
+    public List<AssignTask> saveAssignTask(@RequestBody List<AssignTask> assignTasks){
+        return employeeService.saveAssignTask(assignTasks);
+    }
 }

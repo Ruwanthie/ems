@@ -1,5 +1,6 @@
 package com.dasuni.emstask.taskdata.service;
 
+import com.dasuni.emstask.taskdata.exception.TaskNotFoundException;
 import com.dasuni.emstask.taskdata.repository.TaskRepository;
 import com.dasuni.rentcloud.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,25 +18,20 @@ public class TaskServiceImpl {
         return taskRepository.save(task);
     }
 
-    public Task update(Task newTask, Integer id) {
-
-        return taskRepository.findById(id)
-                .map(Task -> {
-                    Task.setTask_desc(newTask.getTask_desc());
-                    return taskRepository.save(Task);
-                })
-                .orElseGet(() -> {
-                    newTask.setTid(id);
-                    return taskRepository.save(newTask);
-                });
-
-    }
-
-    public List<Task> findAll(){
+    public List<Task> getTasks(){
         return taskRepository.findAll();
     }
 
-    public Optional<Task> findById(Integer id){
-        return taskRepository.findById(id);
+    public Task getTask(Integer id){
+        Optional<Task> optionalStudent = taskRepository.findById(id);
+        if(!optionalStudent.isPresent()){
+            throw new TaskNotFoundException("Invalid Task ID");
+        }
+        return optionalStudent.get();
     }
+
+    public List<Task> getTasksList(List<Integer> ids){
+        return taskRepository.findByIdIn(ids);
+    }
+
 }

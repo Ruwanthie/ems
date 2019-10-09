@@ -1,5 +1,6 @@
 package com.dasuni.emsproj.projdata.service;
 
+import com.dasuni.emsproj.projdata.exception.ProjectNotFoundException;
 import com.dasuni.emsproj.projdata.repository.ProjectRepository;
 import com.dasuni.rentcloud.model.Employee;
 import com.dasuni.rentcloud.model.Project;
@@ -14,31 +15,24 @@ public class ProjectServiceImpl {
     @Autowired
     ProjectRepository projectRepository;
 
+    public List<Project> getProjects(){
+        return projectRepository.findAll();
+    }
+
     public Project save(Project project){
         return projectRepository.save(project);
     }
 
-    public Project update(Project newProject, Integer id) {
-
-        return projectRepository.findById(id)
-                .map(Project -> {
-                    Project.setName(newProject.getName());
-                    Project.setProj_desc(newProject.getProj_desc());
-                    return projectRepository.save(Project);
-                })
-                .orElseGet(() -> {
-                    newProject.setPid(id);
-                    return projectRepository.save(newProject);
-                });
-
+    public Project getProject(Integer id){
+        Optional<Project> optionalStudent = projectRepository.findById(id);
+        if(!optionalStudent.isPresent()){
+            throw new ProjectNotFoundException("Invalid Project ID");
+        }
+        return optionalStudent.get();
     }
 
-    public List<Project> findAll(){
-        return projectRepository.findAll();
-    }
-
-    public Optional<Project> findById(Integer id){
-        return projectRepository.findById(id);
+    public List<Project> getProjectsList(List<Integer> ids){
+        return projectRepository.findByIdIn(ids);
     }
 
 }

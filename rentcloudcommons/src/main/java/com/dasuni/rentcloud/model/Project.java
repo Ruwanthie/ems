@@ -1,25 +1,28 @@
 package com.dasuni.rentcloud.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Project {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pid;
-    private String name;
-    private String proj_desc;
+    private Integer id;
 
-    public Integer getPid() {
-        return pid;
+    private String name;
+
+    private String startDate;
+
+    private String endDate;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -30,11 +33,29 @@ public class Project {
         this.name = name;
     }
 
-    public String getProj_desc() {
-        return proj_desc;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setProj_desc(String proj_desc) {
-        this.proj_desc = proj_desc;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

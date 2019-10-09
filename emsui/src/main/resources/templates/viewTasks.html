@@ -18,17 +18,18 @@
     <div class="float-right" sec:authorize="isAuthenticated()">Welcome ! <span sec:authentication="name"></span></div>
 </div>
 
+
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <button class="btn btn-dark"><a class="nav-link" href="/employees">Employee</a></button>
+                <button class="btn btn-dark"><a class="nav-link active" href="/employees">Employee</a></button>
             </li>
             <li class="nav-item">
                 <button class="btn btn-dark"><a class="nav-link" href="/projects">Projects</a></button>
             </li>
             <li class="nav-item">
-                <button class="btn btn-dark"><a class="nav-link active" href="/tasks">Tasks</a></button>
+                <button class="btn btn-dark"><a class="nav-link" href="/tasks">Tasks</a></button>
             </li>
             <li class="nav-item" sec:authorize="hasRole('ROLE_manager')">
                 <button class="btn btn-dark"><a class="nav-link" href="/operations">Operation</a></button>
@@ -36,12 +37,10 @@
         </ul>
     </div>
 </nav>
-
-<br>
 <br>
 
-<button class="btn btn-outline-primary float-right"><a href="/add-task">Add New Task</a></button> <br>
 <div th:unless="${error==null}">
+
     <table class="table">
         <thead>
         <tr>
@@ -60,25 +59,32 @@
 <div class="container" th:if="${error==null}">
 
     <br>
-    <br>
-    <table class="table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-        </tr>
-        </thead>
-        <tbody>
 
-        <tr th:each = "task: ${tasks}">
-            <td><span th:text="${task.id}"></span></td>
-            <td><span th:text="${task.name}"></span></td>
-            <td><span th:text="${task.description}"></span></td>
-        </tr>
+        <h4 class="text-center">Tasks Assigned</h4>
 
-        </tbody>
-    </table>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Task Name</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="task:${tasks}">
+                <td><span th:text="${task.id}"></span></td>
+                <td><span th:text="${task.name}"></span></td>
+                <td><span th:text="${task.description}"></span></td>
+            </tr>
+
+            </tbody>
+        </table>
+
+
+
+
+
 
 
 </div>
