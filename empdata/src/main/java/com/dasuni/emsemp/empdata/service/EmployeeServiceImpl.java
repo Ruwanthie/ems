@@ -61,12 +61,19 @@ public class EmployeeServiceImpl {
 
         String projectIds = assignTasks.stream().map(s->String.valueOf(s.getPid())).collect(Collectors.joining(","));
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", AccessTokenConfigurer.getToken());
-        HttpEntity<Project> projectHttpEntity = new HttpEntity<Project>(httpHeaders);
-        ResponseEntity<List> responseEntity = restTemplate.exchange("http://localhost:8084/ems/projects/{ids}", HttpMethod.GET, projectHttpEntity, List.class, projectIds);
+        if(projectIds.equals(null)||projectIds.equals("")){
 
-        return responseEntity.getBody();
+            return null;
+
+        } else {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("Authorization", AccessTokenConfigurer.getToken());
+            HttpEntity<Project> projectHttpEntity = new HttpEntity<Project>(httpHeaders);
+            System.out.println("http://localhost:8084/ems/projects/" + projectIds);
+            ResponseEntity<List> responseEntity = restTemplate.exchange("http://localhost:8084/ems/projects/{ids}", HttpMethod.GET, projectHttpEntity, List.class, projectIds);
+
+            return responseEntity.getBody();
+        }
     }
 
     public List<Task> getTasks(Integer pid){
