@@ -103,15 +103,15 @@ input[type=submit]:hover {
     </div>
     <hr>
     <div class="w3-container">
-        <h5>Operation</h5>
+        <h5>Projects</h5>
     </div>
     <div class="w3-bar-block">
         <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
         <a href="/home" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  Dashboard</a>
         <a href="/employees" class="w3-bar-item w3-button w3-padding "><i class="fa fa-users fa-fw"></i>  Employee</a>
-        <a href="/projects" class="w3-bar-item w3-button w3-padding "><i class="fa fa-diamond fa-fw"></i>  Projects</a>
+        <a href="/projects" class="w3-bar-item w3-button w3-padding w3-black"><i class="fa fa-diamond fa-fw"></i>  Projects</a>
         <a href="/tasks" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Tasks</a>
-        <a href="/operations" class="w3-bar-item w3-button w3-padding w3-black" sec:authorize="hasRole('ROLE_manager')"><i class="fa fa-eye fa-fw"></i>  Operation</a>
+        <a href="/operations" class="w3-bar-item w3-button w3-padding" sec:authorize="hasRole('ROLE_manager')"><i class="fa fa-eye fa-fw"></i>  Operation</a>
 
         <br><br>
     </div>
@@ -126,68 +126,35 @@ input[type=submit]:hover {
 
     <!-- Header -->
     <header class="w3-container" style="padding-top:22px">
-        <h5><i class="fa fa-dashboard"></i> Dashboard / <b><i class="fa fa-breadcrumb"></i>Operation</b></h5>
+        <h5><i class="fa fa-dashboard"></i> Dashboard / <b><i class="fa fa-breadcrumb"></i>Projects</b></h5>
     </header>
 
 
 
     <div class="w3-panel">
-
         <div class="w3-row-padding" style="margin:0 -16px">
-            <div th:unless="${error==null}">
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <td>Status code</td>
-                        <td>Error</td>
-                    </tr>
-                    </thead>
 
-                    <tr>
-                        <td><span th:text="${error.statusCode}"></span></td>
-                        <td><span th:text="${error.body}"></span></td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="w3-container"  th:if="${error==null}">
-                <h5 class="w3-center">Projects & Task Allocation</h5><hr>
+            <div class="w3-container">
+                <h5 class="w3-center">Project Information</h5><hr>
                 <div class="container">
-                    <form class="form-horizontal" name="customers-form" th:action="@{/assign}" method="post">
+                    <form class="form-horizontal" name="customers-form" th:action="@{/projects}" method="post">
                         <div class="row">
-                            <label  class="control-label col-25" for="id">Employee:</label>
+                            <label class="control-label col-25" for="name">Project Name:</label>
                             <div class="col-75">
-                                <select class="form-control" id="id" name="eid">
-                                    <option selected>Select Employee</option>
-                                    <option th:each="employee : ${employees}"
-                                            th:value="${employee.id}"
-                                            th:utext="${employee.firstName}"/>
-                                </select>
+                                <input type="text"  class="form-control" id="name" placeholder="Enter Project Name" name="name"  required>
                             </div>
                         </div>
                         <div class="row">
-                            <label  class="control-label col-25" for="projectName">Project:</label>
+                            <label class="control-label col-25" for="startDate">Start Date:</label>
                             <div class="col-75">
-                                <select class="form-control" id="projectName" name="pid">
-                                    <option selected>Select Project</option>
-                                    <option th:each="project : ${projects}"
-                                            th:value="${project.id}"
-                                            th:utext="${project.name}"/>
-                                </select>
+                                <input type="date" class="form-control" id="startDate" placeholder="Enter Start Date" name="startDate" required>
                             </div>
                         </div>
                         <div class="row">
-                            <label  class="control-label col-25" for="taskName">Select Tasks:</label>
+                            <label class="control-label col-25" for="endDate">End Date:</label>
                             <div class="col-75">
-                                <ul id="taskName" class="w3-ul w3-card-4 w3-white">
-                                    <li th:each="task : ${tasks}">
-                                        <div class="ui checkbox">
-                                            <input type="checkbox" th:value="${task.id}" name="tid"/>
-                                            <label th:text="${task.name}"></label>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <input type="date" class="form-control" id="endDate" placeholder="Enter End Date" name="endDate" required>
                             </div>
                         </div>
                         <br>

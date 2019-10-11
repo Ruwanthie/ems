@@ -25,6 +25,8 @@ public class ProjectServiceImpl {
 
     public Project getProject(Integer id){
         Optional<Project> optionalStudent = projectRepository.findById(id);
+
+
         if(!optionalStudent.isPresent()){
             throw new ProjectNotFoundException("Invalid Project ID");
         }

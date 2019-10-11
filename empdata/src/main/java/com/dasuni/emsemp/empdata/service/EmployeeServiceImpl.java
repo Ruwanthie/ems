@@ -69,7 +69,7 @@ public class EmployeeServiceImpl {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", AccessTokenConfigurer.getToken());
             HttpEntity<Project> projectHttpEntity = new HttpEntity<Project>(httpHeaders);
-            System.out.println("http://localhost:8084/ems/projects/" + projectIds);
+            //System.out.println("http://localhost:8084/ems/projects/" + projectIds);
             ResponseEntity<List> responseEntity = restTemplate.exchange("http://localhost:8084/ems/projects/{ids}", HttpMethod.GET, projectHttpEntity, List.class, projectIds);
 
             return responseEntity.getBody();

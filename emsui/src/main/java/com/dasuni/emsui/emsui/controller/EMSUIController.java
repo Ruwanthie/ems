@@ -4,29 +4,28 @@ import com.dasuni.emsui.emsui.conf.AccessTokenConfigurer;
 import com.dasuni.rentcloud.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
 
 
 import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
 
-import javax.validation.Valid;
-
-import java.security.Principal;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+
 
 @Controller
 @EnableOAuth2Sso
@@ -40,17 +39,30 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
                 .antMatchers("/").permitAll()
                 .anyRequest()
                 .authenticated();
+
     }
+
 
 
     @RequestMapping(value = "/")
     public String loadMain(){
-        return "index";
+        return "home";
+    }
+
+    @RequestMapping(value = "/logout")
+    public String Session() {
+
+        return "logout-success";
+    }
+
+    @RequestMapping(value = "/user-login")
+    public String userLogin(){
+        return "user-login";
     }
 
     @RequestMapping(value = "/home")
     public String loadIndex(){
-        return "home";
+        return "dashboard";
     }
 
     @RequestMapping(value = "/employees")
@@ -65,7 +77,7 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
             ResponseEntity responseEntity = ResponseEntity.status(se.getRawStatusCode()).headers(se.getResponseHeaders()).body(se.getResponseBodyAsString());
             model.addAttribute("error",responseEntity);
         }
-        return "empinfo";
+        return "list-employee";
     }
 
     @RequestMapping(value = "/employees",method = RequestMethod.POST)
@@ -86,7 +98,7 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
 
     @RequestMapping(value = "/add-employee")
     public String createEmployee(){
-        return "empadd";
+        return "add-employee";
     }
 
     @RequestMapping(value = "/projects")
@@ -101,7 +113,7 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
             ResponseEntity responseEntity = ResponseEntity.status(se.getRawStatusCode()).headers(se.getResponseHeaders()).body(se.getResponseBodyAsString());
             model.addAttribute("error",responseEntity);
         }
-        return "projectinfo";
+        return "list-project";
     }
 
     @RequestMapping(value = "/projects",method = RequestMethod.POST)
@@ -122,7 +134,7 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
 
     @RequestMapping(value = "/add-project")
     public String createProject(){
-        return "projectadd";
+        return "add-project";
     }
 
     @RequestMapping(value = "/tasks")
@@ -137,7 +149,7 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
             ResponseEntity responseEntity = ResponseEntity.status(se.getRawStatusCode()).headers(se.getResponseHeaders()).body(se.getResponseBodyAsString());
             model.addAttribute("error",responseEntity);
         }
-        return "taskinfo";
+        return "list-task";
     }
 
     @RequestMapping(value = "/tasks",method = RequestMethod.POST)
@@ -157,7 +169,7 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
 
     @RequestMapping(value = "/add-task")
     public String createTask(){
-        return "taskadd";
+        return "add-task";
     }
 
     @RequestMapping(value = "/operations")
@@ -221,7 +233,7 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
             model.addAttribute("error",responseEntity);
         }
 
-        return "view";
+        return "viewinfo";
     }
 
     @RequestMapping(value = "/employees/{id}/projects")
@@ -254,7 +266,7 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
             model.addAttribute("error",responseEntity);
         }
 
-        return "viewTasks";
+        return "assign-tasks";
     }
 
 }

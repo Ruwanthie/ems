@@ -10,7 +10,7 @@
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
 <style>
-input[type=text], select, input[type=date], input[type=email] {
+input[type=text], select, input[type=email] {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -103,15 +103,15 @@ input[type=submit]:hover {
     </div>
     <hr>
     <div class="w3-container">
-        <h5>Operation</h5>
+        <h5>Employee</h5>
     </div>
     <div class="w3-bar-block">
         <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
         <a href="/home" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  Dashboard</a>
-        <a href="/employees" class="w3-bar-item w3-button w3-padding "><i class="fa fa-users fa-fw"></i>  Employee</a>
-        <a href="/projects" class="w3-bar-item w3-button w3-padding "><i class="fa fa-diamond fa-fw"></i>  Projects</a>
+        <a href="/employees" class="w3-bar-item w3-button w3-padding w3-black"><i class="fa fa-users fa-fw"></i>  Employee</a>
+        <a href="/projects" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Projects</a>
         <a href="/tasks" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Tasks</a>
-        <a href="/operations" class="w3-bar-item w3-button w3-padding w3-black" sec:authorize="hasRole('ROLE_manager')"><i class="fa fa-eye fa-fw"></i>  Operation</a>
+        <a href="/operations" class="w3-bar-item w3-button w3-padding" sec:authorize="hasRole('ROLE_manager')"><i class="fa fa-eye fa-fw"></i>  Operation</a>
 
         <br><br>
     </div>
@@ -126,90 +126,57 @@ input[type=submit]:hover {
 
     <!-- Header -->
     <header class="w3-container" style="padding-top:22px">
-        <h5><i class="fa fa-dashboard"></i> Dashboard / <b><i class="fa fa-breadcrumb"></i>Operation</b></h5>
+        <h5><i class="fa fa-dashboard"></i> Dashboard / <b><i class="fa fa-breadcrumb"></i>Employee</b></h5>
     </header>
 
 
 
     <div class="w3-panel">
-
         <div class="w3-row-padding" style="margin:0 -16px">
-            <div th:unless="${error==null}">
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <td>Status code</td>
-                        <td>Error</td>
-                    </tr>
-                    </thead>
 
-                    <tr>
-                        <td><span th:text="${error.statusCode}"></span></td>
-                        <td><span th:text="${error.body}"></span></td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="w3-container"  th:if="${error==null}">
-                <h5 class="w3-center">Projects & Task Allocation</h5><hr>
-                <div class="container">
-                    <form class="form-horizontal" name="customers-form" th:action="@{/assign}" method="post">
-                        <div class="row">
-                            <label  class="control-label col-25" for="id">Employee:</label>
-                            <div class="col-75">
-                                <select class="form-control" id="id" name="eid">
-                                    <option selected>Select Employee</option>
-                                    <option th:each="employee : ${employees}"
-                                            th:value="${employee.id}"
-                                            th:utext="${employee.firstName}"/>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label  class="control-label col-25" for="projectName">Project:</label>
-                            <div class="col-75">
-                                <select class="form-control" id="projectName" name="pid">
-                                    <option selected>Select Project</option>
-                                    <option th:each="project : ${projects}"
-                                            th:value="${project.id}"
-                                            th:utext="${project.name}"/>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label  class="control-label col-25" for="taskName">Select Tasks:</label>
-                            <div class="col-75">
-                                <ul id="taskName" class="w3-ul w3-card-4 w3-white">
-                                    <li th:each="task : ${tasks}">
-                                        <div class="ui checkbox">
-                                            <input type="checkbox" th:value="${task.id}" name="tid"/>
-                                            <label th:text="${task.name}"></label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="row">
-                            <input type="submit" value="Submit" >
-                            <input type="reset" value="Cancel" >
-
-                        </div>
-                    </form>
+        <div class="w3-container">
+            <h5 class="w3-center">Employee Information</h5><hr>
+        <div class="container">
+        <form class="form-horizontal" name="customers-form" th:action="@{/employees}" method="post">
+            <div class="row">
+                <label class="control-label col-25" for="firstName">First Name:</label>
+                <div class="col-75">
+                    <input type="text"  class="form-control" id="firstName" placeholder="Enter First Name" name="firstName"  required>
                 </div>
+            </div>
+            <div class="row">
+                <label class="control-label col-25" for="lastName">Last Name:</label>
+                <div class="col-75">
+                    <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" name="lastName" required>
+                </div>
+            </div>
+            <div class="row">
+                <label class="control-label col-25" for="email">Email:</label>
+                <div class="col-75">
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                    <input type="submit" value="Submit" >
+                    <input type="reset" value="Cancel" >
 
             </div>
+        </form>
+        </div>
+
+        </div>
 
 
 
 
 
 
-        </div></div>
+</div></div>
 
-    <script>
+<script>
 // Get the Sidebar
 var mySidebar = document.getElementById("mySidebar");
 
