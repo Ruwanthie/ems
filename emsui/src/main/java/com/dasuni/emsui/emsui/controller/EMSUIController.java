@@ -7,22 +7,13 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 import org.springframework.http.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
-
-
 import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -36,9 +27,14 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/","/logout").permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout").deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true);
+        http.sessionManagement().maximumSessions(1);
+
 
     }
 
@@ -49,16 +45,6 @@ public class EMSUIController extends WebSecurityConfigurerAdapter{
         return "home";
     }
 
-    @RequestMapping(value = "/logout")
-    public String Session() {
-
-        return "logout-success";
-    }
-
-    @RequestMapping(value = "/user-login")
-    public String userLogin(){
-        return "user-login";
-    }
 
     @RequestMapping(value = "/home")
     public String loadIndex(){

@@ -15,7 +15,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,11 +44,11 @@ public class EmployeeServiceImpl {
     }
 
     public Employee getEmployee(Integer id){
-        Optional<Employee> optionalStudent = employeeRepository.findById(id);
-        if(!optionalStudent.isPresent()){
+        Optional<Employee> employee = employeeRepository.findById(id);
+        if(!employee.isPresent()){
             throw new EmployeeNotFoundException("Invalid Employee ID");
         }
-        return optionalStudent.get();
+        return employee.get();
     }
 
     public List<AssignTask> saveAssignTask(List<AssignTask> assignTasks){
@@ -69,7 +68,6 @@ public class EmployeeServiceImpl {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", AccessTokenConfigurer.getToken());
             HttpEntity<Project> projectHttpEntity = new HttpEntity<Project>(httpHeaders);
-            //System.out.println("http://localhost:8084/ems/projects/" + projectIds);
             ResponseEntity<List> responseEntity = restTemplate.exchange("http://localhost:8084/ems/projects/{ids}", HttpMethod.GET, projectHttpEntity, List.class, projectIds);
 
             return responseEntity.getBody();
