@@ -2,7 +2,7 @@ server:
   port: 8282
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/authDB?createDatabaseIfNotExist=true
+    url: jdbc:mysql://mysql-server:3306/authDB?createDatabaseIfNotExist=true
     username: root
     password: 1qaz2wsx@
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,5 +20,3 @@ logging:
     org:
       hibernate:
         type: trace
-
-  GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '1qaz2wsx@' WITH GRANT OPTION;
