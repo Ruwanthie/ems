@@ -5,7 +5,7 @@ spring:
     url: jdbc:mysql://localhost:3306/authDB?createDatabaseIfNotExist=true
     username: root
     password: 1qaz2wsx@
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     initialization-mode: always
   jpa:
     hibernate:
@@ -21,3 +21,4 @@ logging:
       hibernate:
         type: trace
 
+  GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '1qaz2wsx@' WITH GRANT OPTION;

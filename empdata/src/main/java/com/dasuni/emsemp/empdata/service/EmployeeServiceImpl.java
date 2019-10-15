@@ -68,7 +68,7 @@ public class EmployeeServiceImpl {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", AccessTokenConfigurer.getToken());
             HttpEntity<Project> projectHttpEntity = new HttpEntity<Project>(httpHeaders);
-            ResponseEntity<List> responseEntity = restTemplate.exchange("http://localhost:8084/ems/projects/{ids}", HttpMethod.GET, projectHttpEntity, List.class, projectIds);
+            ResponseEntity<List> responseEntity = restTemplate.exchange("http://projectservice:8084/ems/projects/{ids}", HttpMethod.GET, projectHttpEntity, List.class, projectIds);
 
             return responseEntity.getBody();
         }
@@ -80,7 +80,7 @@ public class EmployeeServiceImpl {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", AccessTokenConfigurer.getToken());
         HttpEntity<Task> taskHttpEntity = new HttpEntity<Task>(httpHeaders);
-        ResponseEntity<List> responseEntity = restTemplate.exchange("http://localhost:8085/ems/tasks/{ids}", HttpMethod.GET, taskHttpEntity, List.class, taskIds);
+        ResponseEntity<List> responseEntity = restTemplate.exchange("http://taskservice:8085/ems/tasks/{ids}", HttpMethod.GET, taskHttpEntity, List.class, taskIds);
 
         return responseEntity.getBody();
 

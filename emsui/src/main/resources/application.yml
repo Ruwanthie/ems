@@ -4,9 +4,9 @@ security:
       client-id: mobile
       client-secret: pin
       user-authorization-uri: http://localhost:8282/oauth/authorize
-      access-token-uri: http://localhost:8282/oauth/token
+      access-token-uri: http://authserver:8282/oauth/token
     resource:
-      token-info-uri: http://localhost:8282/oauth/check_token
+      token-info-uri: http://authserver:8282/oauth/check_token
 server:
   port: 8082
   servlet:
